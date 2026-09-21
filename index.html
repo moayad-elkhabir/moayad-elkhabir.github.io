@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>م. مؤيد الخبير — بطاقة رقمية</title>
+<meta name="description" content="م. مؤيد الخبير — بطاقة رقمية NFC">
+<style>
+:root{
+  --bg1:#0b3f39;--bg2:#07332e;--bg3:#052420;
+  --hero1:#0d9488;--hero2:#0a6b62;
+  --av-bg:#ffffff;--av-fg:#0d9488;--av-bd:#2dd4bf;
+  --job-c:#d7f5f0;--job-w:400;--joben-c:#a8dcd5;--org-bd:rgba(255,255,255,.3);--hero-blob:rgba(255,255,255,.06);
+  --main-bg:#2dd4bf;--main-fg:#07332e;--main-sub:#0a5d55;
+  --send-bg:#0d9488;--send-hv:#0b7a70;--focus:#0d9488;
+  --foot-c:#6fa39c;--foot-b:#2dd4bf;--toast-bd:#0d9488;--toast-bg:#052420;--nfc-c:#ffffff;
+  --ink:#0f172a;--muted:#64748b;
+}
+body.rawabi{
+  --bg1:#12365a;--bg2:#0c1f33;--bg3:#081524;
+  --hero1:#1c4470;--hero2:#16324f;
+  --av-bg:#f2c230;--av-fg:#0c1f33;--av-bd:#ffffff;
+  --job-c:#f2c230;--job-w:700;--joben-c:#cfe0f0;--org-bd:rgba(242,194,48,.55);--hero-blob:rgba(242,194,48,.10);
+  --main-bg:#f2c230;--main-fg:#0c1f33;--main-sub:#8a6d00;
+  --send-bg:#16324f;--send-hv:#1c4470;--focus:#16324f;
+  --foot-c:#7d94ab;--foot-b:#f2c230;--toast-bd:#f2c230;--toast-bg:#0c1f33;--nfc-c:#f2c230;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+body{min-height:100vh;background:linear-gradient(160deg,var(--bg1),var(--bg2) 60%,var(--bg3));display:flex;justify-content:center;padding:22px 12px}
+.card{width:430px;max-width:100%}
+.hero{background:linear-gradient(150deg,var(--hero1),var(--hero2));border-radius:24px;color:#fff;text-align:center;padding:34px 22px 26px;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.42)}
+.hero::before{content:"";position:absolute;top:-70px;inset-inline-end:-70px;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero::after{content:"";position:absolute;bottom:-90px;inset-inline-start:-60px;width:220px;height:220px;border-radius:50%;background:var(--hero-blob)}
+.nfc{position:absolute;top:16px;inset-inline-start:20px;font-weight:800;letter-spacing:2px;transform:rotate(90deg);opacity:.85;font-size:18px;color:var(--nfc-c)}
+.avatar{width:96px;height:96px;border-radius:50%;background:var(--av-bg);color:var(--av-fg);font-size:36px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:3px solid var(--av-bd);position:relative;z-index:1}
+h1{font-size:23px;position:relative;z-index:1}
+.en{font-size:12.5px;opacity:.85;margin-top:3px;position:relative;z-index:1;letter-spacing:.4px}
+.job{font-size:15px;margin-top:10px;color:var(--job-c);font-weight:var(--job-w);position:relative;z-index:1}
+.job-en{font-size:11.5px;margin-top:4px;color:var(--joben-c);position:relative;z-index:1;direction:ltr;letter-spacing:.3px}
+.org{display:inline-block;margin-top:10px;background:rgba(255,255,255,.13);border:1px solid var(--org-bd);border-radius:99px;padding:5px 16px;font-size:12.5px;position:relative;z-index:1}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.act{background:#fff;border-radius:16px;padding:15px 10px;text-align:center;cursor:pointer;text-decoration:none;color:var(--ink);transition:.15s;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+.act:hover{transform:translateY(-2px)}
+.act .ic{font-size:23px}
+.act div.t{font-size:12.5px;font-weight:700;margin-top:6px}
+.act small{display:block;font-size:10px;color:var(--muted);margin-top:2px;direction:ltr}
+.act.main{grid-column:1/-1;background:var(--main-bg);color:var(--main-fg)}
+.act.main small{color:var(--main-sub)}
+.act.wide{grid-column:1/-1}
+.form{background:#fff;border-radius:18px;padding:18px;margin-top:14px;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+.form b{font-size:14px;color:var(--ink)}
+.form p{font-size:11.5px;color:var(--muted);margin-top:3px}
+.form input,.form textarea{width:100%;border:1.5px solid #dfe5ec;border-radius:11px;padding:11px 13px;font-size:13px;margin-top:9px;background:#fbfcfd}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--focus)}
+.send{display:block;width:100%;border:0;border-radius:12px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;margin-top:11px;background:var(--send-bg);color:#fff}
+.send:hover{background:var(--send-hv)}
+.foot{text-align:center;color:var(--foot-c);font-size:11px;margin-top:16px;line-height:1.8}
+.foot b{color:var(--foot-b)}
+.toast{position:fixed;bottom:24px;inset-inline:0;margin:auto;width:fit-content;max-width:90%;background:var(--toast-bg);color:#fff;border:1px solid var(--toast-bd);border-radius:99px;padding:10px 20px;font-size:12.5px;display:none;z-index:9}
+.toast.on{display:block;animation:up .3s}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+#mapTile{display:none}
+body.rawabi #mapTile{display:block}
+#shareTile{grid-column:auto}
+body.rawabi #shareTile{grid-column:1/-1}
+#liTile .ic{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;background:#0a66c2;color:#fff;font-size:15px;font-weight:800;font-family:Arial,sans-serif;line-height:1;padding-bottom:2px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="hero">
+    <div class="nfc">)))</div>
+    <div class="avatar">م</div>
+    <h1>م. مؤيد الخبير</h1>
+    <div class="en">Eng. Moayad Elkhabir</div>
+    <div class="job" id="job"></div>
+    <div class="job-en" id="jobEn"></div>
+    <div class="org" id="org"></div>
+  </div>
+
+  <div class="actions">
+    <div class="act main" onclick="vcf()">
+      <span class="ic">💾</span>
+      <div class="t">حفظ جهة الاتصال</div>
+      <small>يُضاف مباشرة إلى جهات اتصال هاتفك</small>
+    </div>
+    <a class="act" href="tel:+966504241724">
+      <span class="ic">📞</span>
+      <div class="t">اتصال مباشر</div>
+      <small>+966 50 424 1724</small>
+    </a>
+    <a class="act" href="https://wa.me/966504241724" target="_blank" rel="noopener">
+      <span class="ic">💬</span>
+      <div class="t">واتساب</div>
+      <small>محادثة فورية</small>
+    </a>
+    <a class="act" id="mailTile" href="#">
+      <span class="ic">✉️</span>
+      <div class="t">بريد إلكتروني</div>
+      <small id="mailTxt"></small>
+    </a>
+    <a class="act" id="siteTile" href="#" target="_blank" rel="noopener">
+      <span class="ic">🌐</span>
+      <div class="t">موقع الشركة</div>
+      <small id="siteTxt"></small>
+    </a>
+    <a class="act" id="liTile" href="https://www.linkedin.com/in/muayed-elkhabeer-a4581a155" target="_blank" rel="noopener">
+      <span class="ic">in</span>
+      <div class="t">لينكدإن</div>
+      <small>الملف المهني</small>
+    </a>
+    <a class="act" id="mapTile" href="https://goo.gl/maps/ArGzafJ5wktHUwVd9" target="_blank" rel="noopener">
+      <span class="ic">📍</span>
+      <div class="t">موقع المصنع</div>
+      <small>عرض على خرائط Google</small>
+    </a>
+    <div class="act wide" id="shareTile" onclick="shareMe()">
+      <span class="ic">🔗</span>
+      <div class="t">مشاركة هذه البطاقة</div>
+    </div>
+  </div>
+
+  <div class="form">
+    <b>تشرفت بلقائك — شاركني بياناتك 👇</b>
+    <p>ستصلني بياناتك مباشرة على بريدي وسأتواصل معك قريباً</p>
+    <input id="vn" placeholder="الاسم الكامل *">
+    <input id="vp" placeholder="رقم الجوال *">
+    <input id="vc" placeholder="الشركة / الجهة">
+    <textarea id="vm" rows="2" placeholder="ملاحظة أو موضوع التواصل"></textarea>
+    <button class="send" onclick="sendMe()">إرسال بياناتي</button>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const LINKEDIN="https://www.linkedin.com/in/muayed-elkhabeer-a4581a155";
+const CARDS={
+  zajel:{
+    job:"مدير قسم التحكم الآلي وإنترنت الأشياء", jobEn:"Automation & IoT Department Manager",
+    org:"زاجل سوليوشن — Zajel Solution", orgV:"زاجل سوليوشن (Zajel Solution)",
+    email:"moayad.elkhabir@zajelsolutions.com", site:"https://zajelsolutions.com", siteTxt:"zajelsolutions.com",
+    foot:'بطاقة رقمية بتقنية NFC — مشروع <b>لَمْسَة</b><br>التحكم الآلي • إنترنت الأشياء • الأنظمة الذكية',
+    vcfName:"Moayad-Elkhabir-Zajel.vcf"
+  },
+  rawabi:{
+    job:"مدير الإنتاج والتشغيل", jobEn:"Production & Operations Manager",
+    org:"روابي نجد للصناعة — Rawabi Najd Industry", orgV:"روابي نجد للصناعة (Rawabi Najd Industry)",
+    email:"m.elkhabir@rawabinjd.com", site:"https://rawabinjd.com", siteTxt:"rawabinjd.com",
+    foot:'بطاقة رقمية بتقنية NFC — <b>روابي نجد للصناعة</b><br>الإنتاج • التشغيل • الجودة',
+    vcfName:"Moayad-Elkhabir-Rawabi.vcf"
+  }
+};
+const path=location.pathname.toLowerCase();
+const key=(new URLSearchParams(location.search).get("c")||location.hash.replace("#","")||(path.includes("rawabi")?"rawabi":"zajel")).toLowerCase();
+const C=CARDS[key]||CARDS.zajel;
+if(CARDS[key]&&key==="rawabi")document.body.classList.add("rawabi");
+document.getElementById("job").textContent=C.job;
+document.getElementById("jobEn").textContent=C.jobEn;
+document.getElementById("org").textContent=C.org;
+document.getElementById("mailTile").href="mailto:"+C.email;
+document.getElementById("mailTxt").textContent=C.email;
+document.getElementById("siteTile").href=C.site;
+document.getElementById("siteTxt").textContent=C.siteTxt;
+document.getElementById("foot").innerHTML=C.foot;
+document.title="م. مؤيد الخبير — "+(key==="rawabi"?"روابي نجد للصناعة":"بطاقة رقمية");
+
+function toast(m,ms=3200){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("on"),ms);}
+function vcf(){
+  const v=["BEGIN:VCARD","VERSION:3.0",
+  "N;CHARSET=UTF-8:الخبير;مؤيد;;م.;",
+  "FN;CHARSET=UTF-8:م. مؤيد الخبير",
+  "X-FN-EN:Eng. Moayad Elkhabir",
+  "ORG;CHARSET=UTF-8:"+C.orgV,
+  "TITLE;CHARSET=UTF-8:"+C.job+" — "+C.jobEn,
+  "TEL;TYPE=CELL:+966504241724",
+  "EMAIL;TYPE=WORK:"+C.email,
+  "URL:"+C.site,
+  "URL;TYPE=LinkedIn:"+LINKEDIN,
+  "X-SOCIALPROFILE;TYPE=linkedin:"+LINKEDIN,
+  "END:VCARD"].join("\r\n");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([v],{type:"text/vcard;charset=utf-8"}));
+  a.download=C.vcfName;a.click();
+  toast("✓ تم تنزيل جهة الاتصال — افتح الملف لإضافتها");
+}
+function shareMe(){
+  const u=location.origin+location.pathname+(key!=="zajel"?"?c="+key:"");
+  if(navigator.share){navigator.share({title:document.title,url:u}).catch(()=>{});}
+  else{navigator.clipboard&&navigator.clipboard.writeText(u);toast("✓ تم نسخ رابط البطاقة");}
+}
+function sendMe(){
+  const n=document.getElementById("vn").value.trim(),p=document.getElementById("vp").value.trim(),
+        c=document.getElementById("vc").value.trim(),m=document.getElementById("vm").value.trim();
+  if(!n||!p){toast("⚠️ الاسم ورقم الجوال مطلوبان");return;}
+  const body=encodeURIComponent(`الاسم: ${n}\nالجوال: ${p}\nالشركة: ${c||"-"}\nملاحظة: ${m||"-"}\n\n(أُرسلت من بطاقة NFC الرقمية)`);
+  location.href=`mailto:${C.email}?subject=${encodeURIComponent("تواصل جديد من بطاقتك الرقمية — "+n)}&body=${body}`;
+  toast("سيفتح تطبيق البريد لإتمام الإرسال ✓",4000);
+}
+</script>
+</body>
+</html>
